@@ -181,6 +181,13 @@ fun <E, R1, R2, R3> Assert<Iterable<E>>.extracting(
     actual.map { Triple(f1(it), f2(it), f3(it)) }
 }
 
+
+fun <E> Assert<Iterable<E>>.extracting(vararg extractions:E.() -> Any?): Assert<List<List<Any?>>> {
+    return transform { actual ->
+        actual.map { e -> extractions.map { f -> e.f()  }  }
+    }
+}
+
 /**
  * Asserts on each item in the iterable, passing if none of the items pass.
  * The given lambda will be run for each item.

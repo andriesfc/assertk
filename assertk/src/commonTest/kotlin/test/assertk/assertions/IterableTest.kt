@@ -3,7 +3,6 @@ package test.assertk.assertions
 import assertk.all
 import assertk.assertThat
 import assertk.assertions.*
-import assertk.assertions.support.fail
 import test.assertk.opentestPackageName
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -458,7 +457,19 @@ class IterableTest {
             error.message
         )
     }
+
+    @Test
+    fun many_extracting_function_passes() {
+        assertThat(
+            listOf(
+                Thing4(one = "one", two = 2, three = '3', four = 4L),
+                Thing4(one = "onetwo", two = 12, three = '4', four = 14L)
+            )
+        ).extracting(Thing4::one, Thing4::two, Thing4::three, Thing4::four)
+    }
+
     //region extracting
 
     data class Thing(val one: String, val two: Int, val three: Char)
+    data class Thing4(val one: String, val two: Int, val three: Char, val four:Long)
 }
